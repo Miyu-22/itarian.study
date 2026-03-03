@@ -1,266 +1,236 @@
-rails g migration AddColumnsToTweets residence_type:string activity:text item:text phone:text language:string restaurant:text site:text security:text schedule_weekly:text study_content:text scholarship:string preparation:text trouble:text schedule_beforestudy:text health:text episode:text
+<%= stylesheet_link_tag 'application', media: "all" %>
 
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>GUSTI DIVERSI</title>
 
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lato:wght@300;400&display=swap" rel="stylesheet">
 
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Lato', sans-serif;
+      background-color: #fdfaf6;
+      color: #333;
+    }
 
-<%= f.label :授業で使用した言語 %>
-    イタリア語: <%= f.check_box :user_ids ,{ multiple: true, include_hidden: false }, 1 %>
-　　英語: <%= f.check_box :user_ids ,{ multiple: true, include_hidden: false }, 2 %>
-　　その他: <%= f.check_box :user_ids ,{ multiple: true, include_hidden: false }, 3 %>
+    /* ===== HEADER ===== */
+    header {
+      background: linear-gradient(to right, #009246 33%, #ffffff 33%, #ffffff 66%, #ce2b37 66%);
+      padding: 40px 20px;
+      text-align: center;
+    }
 
+    header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 48px;
+      margin: 0;
+      letter-spacing: 3px;
+    }
 
-<% PeriodTag.all.each do |t| %>
-        <li><%= check_box :period_tag_ids, t.name %><%= t.name %></li>
-    <% end %>
-    留学の種類
-    <% StudytypeTag.all.each do |t| %>
-        <li><%= check_box :study_type_tag_ids, t.name %><%= t.name %></li>
-    <% end %>
- <%= submit_tag '検索' %>
-<% end %>
+    .subtitle {
+      font-size: 18px;
+      margin-top: 10px;
+    }
 
+    /* ===== NAVIGATION ===== */
+    .nav-header {
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      list-style: none;
+      padding: 0;
+      margin-top: 25px;
+    }
 
-@message = Message.new
-        @entries = @room.entries
-        @receiver = @entries.where.not(user_id: current_user.id).first.user
-      else
-        redirect_back(fallback_location: root_path)
-end
-end
-end
+    .nav-header a {
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+      transition: 0.3s;
+    }
 
+    .nav-header a:hover {
+      color: #ce2b37;
+    }
 
+    /* ===== HERO SECTION ===== */
+    .hero {
+      text-align: center;
+      padding: 80px 20px;
+      background-image: url('/assets/ローマ.jpg');
+      background-size: cover;
+      background-position: center;
+      color: white;
+    }
 
+    .hero h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 42px;
+      background: rgba(0,0,0,0.4);
+      display: inline-block;
+      padding: 15px 30px;
+      border-radius: 8px;
+    }
 
+    /* ===== SECTION ===== */
+    .section {
+      padding: 70px 10%;
+    }
 
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      text-align: center;
+      margin-bottom: 50px;
+      position: relative;
+    }
 
-<% if @user.id == current_user.id %>
-<div class="dmMain">
-  <% if @messages.present? %>
-    <% @messages.each do |m| %>
-      <strong><%= m.body %></strong>
-      （送信者）<small><%= m.user.name %></small>
-      （送信日時）<small><%= m.created_at %></small><hr>
-    <% end %>
-  <% else %>
-    <p>メッセージはまだありません</p>
-  <% end %>
-</div>
-<% end %>
+    .section-title::after {
+      content: "";
+      width: 80px;
+      height: 4px;
+      background: #009246;
+      display: block;
+      margin: 15px auto;
+    }
 
+    /* ===== CITY CARD ===== */
+    .city-card {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      margin-bottom: 60px;
+    }
 
+    .city-card:nth-child(even) {
+      flex-direction: row-reverse;
+    }
 
+    .city-card img {
+      width: 50%;
+      border-radius: 12px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
 
+    .city-text {
+      width: 50%;
+    }
 
+    .city-text h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      margin-bottom: 15px;
+      color: #ce2b37;
+    }
 
+    /* ===== BUTTON ===== */
+    .btn-italy {
+      display: inline-block;
+      padding: 12px 25px;
+      background: #009246;
+      color: white;
+      text-decoration: none;
+      border-radius: 30px;
+      margin-top: 20px;
+      transition: 0.3s;
+    }
 
+    .btn-italy:hover {
+      background: #ce2b37;
+    }
 
-<%= stylesheet_link_tag 'application', :media => "all" %>
-<%= stylesheet_link_tag 'homes_info', :media => "all" %>
+    /* ===== FOOTER ===== */
+    footer {
+      background: #222;
+      color: white;
+      text-align: center;
+      padding: 30px;
+      margin-top: 80px;
+    }
+
+    /* ===== Back to Top ===== */
+    .back-to-top {
+      position: fixed;
+      bottom: 40px;
+      right: 40px;
+      background-color: #ce2b37;
+      color: white;
+      text-decoration: none;
+      font-size: 20px;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      text-align: center;
+      line-height: 50px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    }
+  </style>
+</head>
+
+<body>
+
 <header>
-  <div class=header-container>
-  <%= image_tag "ChatGPTimage.png", alt: "ロゴ", class: "site-image" %>
-  <h1>GUSTI DIVESRI </h1>
-  <h2 class="subtitle">イタリア留学体験談サイト</h2>
+  <h1>GUSTI DIVERSI</h1>
+  <p class="subtitle">イタリア留学体験談サイト</p>
 
-  <ul class=nav-header>
-  <li><%= link_to "このサイトについて", '/homes/info', class: (current_page?('/homes/info') ? "active" : "") %></li>
-      <li><%= link_to "体験談の投稿一覧へ", '/tweets' %></li>
-      <li><%= link_to "地図投稿一覧へ", posts_path %></li>
-      <li><%= link_to "体験談を投稿する", tweets_new_path %></li>
-      <li><%= link_to "地図投稿する", new_post_path %></li>
-      <% if user_signed_in? %>
-        <li><%= link_to "マイページ", user_path(current_user) %></li>
-        <li><%= button_to "ログアウト", destroy_user_session_path, method: :delete, class: "link-button" %></li>
-      <% else %>
-        <li><%= link_to "ログイン", new_user_session_path %></li>
-        <li><%= link_to "新規登録", new_user_registration_path %></li>
-      <% end %>
-      </ul>
-
-  <h3 class="login-status">
-  <% if user_signed_in? %>
-  <%= current_user.name %> がログインしています
-<% else %>
-  ログインしていません
-  <% end %>
-  </h3>
-  </div>
+  <ul class="nav-header">
+    <li><%= link_to "このサイトについて", '/homes/info' %></li>
+    <li><%= link_to "体験談一覧", '/tweets' %></li>
+    <li><%= link_to "地図投稿", posts_path %></li>
+    <li><%= link_to "投稿する", tweets_new_path %></li>
+  </ul>
 </header>
 
-<nav class="breadcrumb">
-  <a href="/homes/index">トップページ</a> &gt;
-  このサイトについて
-</nav>
+<section class="hero">
+  <h2>憧れの国、イタリアで学ぶ</h2>
+</section>
 
- <div class="blank7">
-<h4> このサイトについて </h4>
-</div>
-<div class="blank8">
-<div class="pair">
-<div class="text-area1">
-    <h5 class="invitation">憧れの国、イタリアで学びませんか？</h5>
-    <p>
-      このサイトは、イタリアに留学した・またはこれから留学したい学生のための体験談共有サイトです。<br>
-      実際に現地で学んだ人々の声を集め、これから留学を考える方がリアルな情報を得られるように作成しました。
-    </p>
+<section class="section">
+  <h2 class="section-title">人気留学都市</h2>
+
+  <div class="city-card">
+    <%= image_tag "ローマ.jpg" %>
+    <div class="city-text">
+      <h3>ローマ</h3>
+      <p>歴史と芸術の中心地。世界遺産に囲まれながら学ぶ特別な体験。</p>
+    </div>
   </div>
 
-<div class="image-area1">
-    <%= image_tag "ローマ.jpg", alt: "ローマ", class: "roma-image" %>
+  <div class="city-card">
+    <%= image_tag "ヴェネツィア.jpg" %>
+    <div class="city-text">
+      <h3>ヴェネツィア</h3>
+      <p>水の都で味わう、幻想的な留学生活。</p>
     </div>
-    <div class="text-area2">
-    そんなう思い
-    </div>
-    </div>
+  </div>
 
-<div class="pair">
-    <div class="image-area2">
-<%= image_tag "ヴェネツィア.jpg", alt: "ヴェネツィア", class: "venezia-image" %>
-</div>
-</div>
-<div class="pair">
-<div class="image-area3">
-はい
-</div>
-<div class="image-area3">
-<%= image_tag "ミラノ.jpg", alt: "ミラノ", class: "milano-image" %>
-</div>
-</div>
-<div class="pair">
-    <div class="text-area4">
-    です
+  <div class="city-card">
+    <%= image_tag "ミラノ.jpg" %>
+    <div class="city-text">
+      <h3>ミラノ</h3>
+      <p>ファッションとビジネスの中心で最先端を学ぶ。</p>
     </div>
-<div class="image-area4">
-<%= image_tag "ナポリ.jpg", alt: "ナポリ", class: "napoli-image" %>
-</div>
-</div>
-</div>
+  </div>
+
+  <div class="city-card">
+    <%= image_tag "ナポリ.jpg" %>
+    <div class="city-text">
+      <h3>ナポリ</h3>
+      <p>陽気で温かい南イタリア文化を体験。</p>
+    </div>
+  </div>
+
+</section>
+
+<footer>
+  © 2026 GUSTI DIVERSI | Study in Italy
+</footer>
 
 <a href="#" class="back-to-top">▲</a>
 
-
-
-
-
-
-
-
-.blank7 {
-font-size: 25px;
-font-weight: bold;
-margin-left: 20px;
-}
-.blank8 {
-  flex-direction: column;  
-  justify-content: space-between; /* 両端に配置 */
-  align-items: center;          /* 高さをそろえる */
-  gap: 30px;                    /* 文章と画像の間の余白 */ 
-margin-left: 20px;
-}
-.pair {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 30px;
-}
-
-/* 偶数番目だけ反転（画像左・テキスト右）にする */
-.pair:nth-child(even) {
-  flex-direction: row-reverse;
-}
-
-.text-area1 {
-  width: 50%;                   /* テキストエリアの幅 */
-  font-size: 16px;
-  line-height: 1.7;
-}
-.blank8 .invitation {
-  font-size: 20px;
-margin-left: 20px;
-margin-bottom: 25px;
-}
-
-.image-area1 {
-  width: 50%;                   /* 写真エリアの幅 */
-}
-.image-area2 {
-  width: 50%;                   /* 写真エリアの幅 */
-}
-.text-area2 {
-  width: 50%;                   /* テキストエリアの幅 */
-  font-size: 16px;
-  line-height: 1.7;
-}
-.text-area3 {
-  width: 50%;                   /* テキストエリアの幅 */
-  font-size: 16px;
-  line-height: 1.7;
-}
-.image-area3 {
-  width: 50%;                   /* 写真エリアの幅 */
-}
-.image-area4 {
-  width: 50%;                   /* 写真エリアの幅 */
-}
-.text-area4 {
-  width: 50%;                   /* テキストエリアの幅 */
-  font-size: 16px;
-  line-height: 1.7;
-}
-
-.blank8 .roma-image {
-  width: 100%;       /* ボックス幅に合わせる */
-  height: auto;      /* 縦横比を保持 */     
-  margin-top: 25px;
-  margin-left: auto;   /* 左側の余白を自動にして右に寄せる */
-  margin-right: 25px;
-  object-fit: cover; /* はみ出し防止 */
-  z-index: 1;
-  
-}
-.blank8 .venezia-image {
- width: 35%;       /* ボックス幅に合わせる */
-  height: auto;      /* 縦横比を保持 */
-  display: block;      /* インライン要素のままだと margin が効きにくいのでブロック化 */
-  margin-top: 80px;
-  margin-left: 25px;   /* 左側の余白を自動にして右に寄せる */
-  margin-right: auto;
-  object-fit: cover; /* はみ出し防止 */
-  
-}
-
-.blank8 .milano-image {
-  width: 35%;       /* ボックス幅に合わせる */
-  height: auto;      /* 縦横比を保持 */
-  display: block;      /* インライン要素のままだと margin が効きにくいのでブロック化 */
-  margin-top: 80px;
-  margin-left: auto;   /* 左側の余白を自動にして右に寄せる */
-  margin-right: 25px;
-  object-fit: cover; /* はみ出し防止 */
-}
-.blank8 .napoli-image {
-  width: 35%;       /* ボックス幅に合わせる */
-  height: auto;      /* 縦横比を保持 */
-  display: block;      /* インライン要素のままだと margin が効きにくいのでブロック化 */
-  margin-top: 80px;
-  margin-left: 25px;   /* 左側の余白を自動にして右に寄せる */
-  margin-right: auto;
-  margin-bottom: 30px;
-  object-fit: cover; /* はみ出し防止 */
-}
-.back-to-top {
-  position: fixed;
-  bottom: 40px;
-  right: 40px;
-  background-color: #00acee;
-  color: white;
-  text-decoration: none;
-  font-size: 20px;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  text-align: center;
-  line-height: 50px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-}
+</body>
+</html>
