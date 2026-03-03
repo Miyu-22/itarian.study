@@ -1,0 +1,266 @@
+rails g migration AddColumnsToTweets residence_type:string activity:text item:text phone:text language:string restaurant:text site:text security:text schedule_weekly:text study_content:text scholarship:string preparation:text trouble:text schedule_beforestudy:text health:text episode:text
+
+
+
+
+<%= f.label :授業で使用した言語 %>
+    イタリア語: <%= f.check_box :user_ids ,{ multiple: true, include_hidden: false }, 1 %>
+　　英語: <%= f.check_box :user_ids ,{ multiple: true, include_hidden: false }, 2 %>
+　　その他: <%= f.check_box :user_ids ,{ multiple: true, include_hidden: false }, 3 %>
+
+
+<% PeriodTag.all.each do |t| %>
+        <li><%= check_box :period_tag_ids, t.name %><%= t.name %></li>
+    <% end %>
+    留学の種類
+    <% StudytypeTag.all.each do |t| %>
+        <li><%= check_box :study_type_tag_ids, t.name %><%= t.name %></li>
+    <% end %>
+ <%= submit_tag '検索' %>
+<% end %>
+
+
+@message = Message.new
+        @entries = @room.entries
+        @receiver = @entries.where.not(user_id: current_user.id).first.user
+      else
+        redirect_back(fallback_location: root_path)
+end
+end
+end
+
+
+
+
+
+
+<% if @user.id == current_user.id %>
+<div class="dmMain">
+  <% if @messages.present? %>
+    <% @messages.each do |m| %>
+      <strong><%= m.body %></strong>
+      （送信者）<small><%= m.user.name %></small>
+      （送信日時）<small><%= m.created_at %></small><hr>
+    <% end %>
+  <% else %>
+    <p>メッセージはまだありません</p>
+  <% end %>
+</div>
+<% end %>
+
+
+
+
+
+
+
+
+<%= stylesheet_link_tag 'application', :media => "all" %>
+<%= stylesheet_link_tag 'homes_info', :media => "all" %>
+<header>
+  <div class=header-container>
+  <%= image_tag "ChatGPTimage.png", alt: "ロゴ", class: "site-image" %>
+  <h1>GUSTI DIVESRI </h1>
+  <h2 class="subtitle">イタリア留学体験談サイト</h2>
+
+  <ul class=nav-header>
+  <li><%= link_to "このサイトについて", '/homes/info', class: (current_page?('/homes/info') ? "active" : "") %></li>
+      <li><%= link_to "体験談の投稿一覧へ", '/tweets' %></li>
+      <li><%= link_to "地図投稿一覧へ", posts_path %></li>
+      <li><%= link_to "体験談を投稿する", tweets_new_path %></li>
+      <li><%= link_to "地図投稿する", new_post_path %></li>
+      <% if user_signed_in? %>
+        <li><%= link_to "マイページ", user_path(current_user) %></li>
+        <li><%= button_to "ログアウト", destroy_user_session_path, method: :delete, class: "link-button" %></li>
+      <% else %>
+        <li><%= link_to "ログイン", new_user_session_path %></li>
+        <li><%= link_to "新規登録", new_user_registration_path %></li>
+      <% end %>
+      </ul>
+
+  <h3 class="login-status">
+  <% if user_signed_in? %>
+  <%= current_user.name %> がログインしています
+<% else %>
+  ログインしていません
+  <% end %>
+  </h3>
+  </div>
+</header>
+
+<nav class="breadcrumb">
+  <a href="/homes/index">トップページ</a> &gt;
+  このサイトについて
+</nav>
+
+ <div class="blank7">
+<h4> このサイトについて </h4>
+</div>
+<div class="blank8">
+<div class="pair">
+<div class="text-area1">
+    <h5 class="invitation">憧れの国、イタリアで学びませんか？</h5>
+    <p>
+      このサイトは、イタリアに留学した・またはこれから留学したい学生のための体験談共有サイトです。<br>
+      実際に現地で学んだ人々の声を集め、これから留学を考える方がリアルな情報を得られるように作成しました。
+    </p>
+  </div>
+
+<div class="image-area1">
+    <%= image_tag "ローマ.jpg", alt: "ローマ", class: "roma-image" %>
+    </div>
+    <div class="text-area2">
+    そんなう思い
+    </div>
+    </div>
+
+<div class="pair">
+    <div class="image-area2">
+<%= image_tag "ヴェネツィア.jpg", alt: "ヴェネツィア", class: "venezia-image" %>
+</div>
+</div>
+<div class="pair">
+<div class="image-area3">
+はい
+</div>
+<div class="image-area3">
+<%= image_tag "ミラノ.jpg", alt: "ミラノ", class: "milano-image" %>
+</div>
+</div>
+<div class="pair">
+    <div class="text-area4">
+    です
+    </div>
+<div class="image-area4">
+<%= image_tag "ナポリ.jpg", alt: "ナポリ", class: "napoli-image" %>
+</div>
+</div>
+</div>
+
+<a href="#" class="back-to-top">▲</a>
+
+
+
+
+
+
+
+
+.blank7 {
+font-size: 25px;
+font-weight: bold;
+margin-left: 20px;
+}
+.blank8 {
+  flex-direction: column;  
+  justify-content: space-between; /* 両端に配置 */
+  align-items: center;          /* 高さをそろえる */
+  gap: 30px;                    /* 文章と画像の間の余白 */ 
+margin-left: 20px;
+}
+.pair {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+}
+
+/* 偶数番目だけ反転（画像左・テキスト右）にする */
+.pair:nth-child(even) {
+  flex-direction: row-reverse;
+}
+
+.text-area1 {
+  width: 50%;                   /* テキストエリアの幅 */
+  font-size: 16px;
+  line-height: 1.7;
+}
+.blank8 .invitation {
+  font-size: 20px;
+margin-left: 20px;
+margin-bottom: 25px;
+}
+
+.image-area1 {
+  width: 50%;                   /* 写真エリアの幅 */
+}
+.image-area2 {
+  width: 50%;                   /* 写真エリアの幅 */
+}
+.text-area2 {
+  width: 50%;                   /* テキストエリアの幅 */
+  font-size: 16px;
+  line-height: 1.7;
+}
+.text-area3 {
+  width: 50%;                   /* テキストエリアの幅 */
+  font-size: 16px;
+  line-height: 1.7;
+}
+.image-area3 {
+  width: 50%;                   /* 写真エリアの幅 */
+}
+.image-area4 {
+  width: 50%;                   /* 写真エリアの幅 */
+}
+.text-area4 {
+  width: 50%;                   /* テキストエリアの幅 */
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.blank8 .roma-image {
+  width: 100%;       /* ボックス幅に合わせる */
+  height: auto;      /* 縦横比を保持 */     
+  margin-top: 25px;
+  margin-left: auto;   /* 左側の余白を自動にして右に寄せる */
+  margin-right: 25px;
+  object-fit: cover; /* はみ出し防止 */
+  z-index: 1;
+  
+}
+.blank8 .venezia-image {
+ width: 35%;       /* ボックス幅に合わせる */
+  height: auto;      /* 縦横比を保持 */
+  display: block;      /* インライン要素のままだと margin が効きにくいのでブロック化 */
+  margin-top: 80px;
+  margin-left: 25px;   /* 左側の余白を自動にして右に寄せる */
+  margin-right: auto;
+  object-fit: cover; /* はみ出し防止 */
+  
+}
+
+.blank8 .milano-image {
+  width: 35%;       /* ボックス幅に合わせる */
+  height: auto;      /* 縦横比を保持 */
+  display: block;      /* インライン要素のままだと margin が効きにくいのでブロック化 */
+  margin-top: 80px;
+  margin-left: auto;   /* 左側の余白を自動にして右に寄せる */
+  margin-right: 25px;
+  object-fit: cover; /* はみ出し防止 */
+}
+.blank8 .napoli-image {
+  width: 35%;       /* ボックス幅に合わせる */
+  height: auto;      /* 縦横比を保持 */
+  display: block;      /* インライン要素のままだと margin が効きにくいのでブロック化 */
+  margin-top: 80px;
+  margin-left: 25px;   /* 左側の余白を自動にして右に寄せる */
+  margin-right: auto;
+  margin-bottom: 30px;
+  object-fit: cover; /* はみ出し防止 */
+}
+.back-to-top {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  background-color: #00acee;
+  color: white;
+  text-decoration: none;
+  font-size: 20px;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  line-height: 50px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
