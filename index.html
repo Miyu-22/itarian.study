@@ -6,7 +6,6 @@
   <meta charset="UTF-8">
   <title>GUSTI DIVERSI</title>
 
-  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lato:wght@300;400&display=swap" rel="stylesheet">
 
   <style>
@@ -36,7 +35,6 @@
       margin-top: 10px;
     }
 
-    /* ===== NAVIGATION ===== */
     .nav-header {
       display: flex;
       justify-content: center;
@@ -46,22 +44,38 @@
       margin-top: 25px;
     }
 
-    .nav-header a {
+    .nav-header li {
+      list-style: none;
+    }
+
+    .nav-header a,
+    .link-button {
       text-decoration: none;
       color: #333;
       font-weight: bold;
       transition: 0.3s;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 15px;
     }
 
-    .nav-header a:hover {
+    .nav-header a:hover,
+    .link-button:hover {
       color: #ce2b37;
     }
 
-    /* ===== HERO SECTION ===== */
+    .login-status {
+      margin-top: 20px;
+      font-size: 14px;
+    }
+
+    /* ===== HERO ===== */
     .hero {
       text-align: center;
-      padding: 80px 20px;
-      background-image: url('/assets/ローマ.jpg');
+      padding: 100px 20px;
+      background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
+        url(<%= asset_path "ローマ.jpg" %>);
       background-size: cover;
       background-position: center;
       color: white;
@@ -70,7 +84,6 @@
     .hero h2 {
       font-family: 'Playfair Display', serif;
       font-size: 42px;
-      background: rgba(0,0,0,0.4);
       display: inline-block;
       padding: 15px 30px;
       border-radius: 8px;
@@ -86,19 +99,8 @@
       font-size: 32px;
       text-align: center;
       margin-bottom: 50px;
-      position: relative;
     }
 
-    .section-title::after {
-      content: "";
-      width: 80px;
-      height: 4px;
-      background: #009246;
-      display: block;
-      margin: 15px auto;
-    }
-
-    /* ===== CITY CARD ===== */
     .city-card {
       display: flex;
       align-items: center;
@@ -127,23 +129,6 @@
       color: #ce2b37;
     }
 
-    /* ===== BUTTON ===== */
-    .btn-italy {
-      display: inline-block;
-      padding: 12px 25px;
-      background: #009246;
-      color: white;
-      text-decoration: none;
-      border-radius: 30px;
-      margin-top: 20px;
-      transition: 0.3s;
-    }
-
-    .btn-italy:hover {
-      background: #ce2b37;
-    }
-
-    /* ===== FOOTER ===== */
     footer {
       background: #222;
       color: white;
@@ -152,7 +137,6 @@
       margin-top: 80px;
     }
 
-    /* ===== Back to Top ===== */
     .back-to-top {
       position: fixed;
       bottom: 40px;
@@ -174,15 +158,36 @@
 <body>
 
 <header>
+
+  <%= image_tag "ChatGPTimage.png", alt: "ロゴ", style: "width:80px;" %>
+
   <h1>GUSTI DIVERSI</h1>
   <p class="subtitle">イタリア留学体験談サイト</p>
 
   <ul class="nav-header">
-    <li><%= link_to "このサイトについて", '/homes/info' %></li>
-    <li><%= link_to "体験談一覧", '/tweets' %></li>
-    <li><%= link_to "地図投稿", posts_path %></li>
-    <li><%= link_to "投稿する", tweets_new_path %></li>
+    <li><%= link_to "このサイトについて", '/homes/info', class: (current_page?('/homes/info') ? "active" : "") %></li>
+    <li><%= link_to "体験談の投稿一覧へ", '/tweets' %></li>
+    <li><%= link_to "地図投稿一覧へ", posts_path %></li>
+    <li><%= link_to "体験談を投稿する", tweets_new_path %></li>
+    <li><%= link_to "地図投稿する", new_post_path %></li>
+
+    <% if user_signed_in? %>
+      <li><%= link_to "マイページ", user_path(current_user) %></li>
+      <li><%= button_to "ログアウト", destroy_user_session_path, method: :delete, class: "link-button" %></li>
+    <% else %>
+      <li><%= link_to "ログイン", new_user_session_path %></li>
+      <li><%= link_to "新規登録", new_user_registration_path %></li>
+    <% end %>
   </ul>
+
+  <div class="login-status">
+    <% if user_signed_in? %>
+      <%= current_user.name %> がログインしています
+    <% else %>
+      ログインしていません
+    <% end %>
+  </div>
+
 </header>
 
 <section class="hero">
@@ -204,7 +209,7 @@
     <%= image_tag "ヴェネツィア.jpg" %>
     <div class="city-text">
       <h3>ヴェネツィア</h3>
-      <p>水の都で味わう、幻想的な留学生活。</p>
+      <p>水の都で味わう幻想的な留学生活。</p>
     </div>
   </div>
 
@@ -223,7 +228,6 @@
       <p>陽気で温かい南イタリア文化を体験。</p>
     </div>
   </div>
-
 </section>
 
 <footer>
